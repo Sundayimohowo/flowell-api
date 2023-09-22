@@ -104,7 +104,7 @@ export class AuthService {
     const { email, verificationCode, newPassword } = body;
 
     // TODO: validate change password
-    userChangePasswordValidatorSchema.parse(body)
+    userChangePasswordValidatorSchema.parse(body);
 
     const user = await this.userService.findOne({ email });
     if (!user) throwClientError('Account not found');
@@ -152,5 +152,16 @@ export class AuthService {
     // await this.sendConfirmedEmail(user);
 
     return { message: 'Password reset was successful!' };
+  }
+
+  async validateUser(email: string, password: string): Promise<UserDocument> {
+    const user = await this.userService.findOne({ email });
+    if (!user) throwClientError('Account not found');
+    const savedPassword = await this.passwordService.findOne({
+      user: user._id,
+    });
+    if (savedPassword?.password !== password)
+      throwClientError('Incorrect email and password combination');
+    return user;
   }
 }

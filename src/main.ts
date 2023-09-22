@@ -3,6 +3,8 @@ import { VersioningType } from '@nestjs/common';
 //
 import { AppModule } from './app.module';
 import { config } from './config';
+import { ErrorInterceptor } from './interceptors/errors.interceptor';
+import { Logger } from './utils/logger.util';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -14,7 +16,11 @@ async function bootstrap() {
     prefix: 'api/v',
   });
 
-  await app.listen(config.PORT);
+  app.useGlobalInterceptors(new ErrorInterceptor());
+
+  // logger
+  app.useLogger(new Logger());
+  await app.listen(config.port);
 }
 
 bootstrap();

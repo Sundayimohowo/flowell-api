@@ -48,4 +48,21 @@ export class CartController {
       this.cartService.updateById(id, body, { new: true }),
     );
   }
+  @Get('/:user/add/:productId')
+  async addProductToCart(
+    @Param('user') user: string,
+    @Param('productId') productId: string,
+  ): Promise<{ data: CartDocument }> {
+    return createDataResponse(
+      this.cartService.addProductToCart(user, productId),
+    );
+  }
+
+  @Get('/:user/remove/:productId')
+  async removeProduct(
+    @Param('user') user: string,
+    @Param('productId') productId: string,
+  ): Promise<{ data: CartDocument }> {
+    return createDataResponse(this.cartService.removeFromCart(user, productId));
+  }
 }

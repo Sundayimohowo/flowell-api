@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { VersioningType } from '@nestjs/common';
 //
 import { AppModule } from './app.module';
+import { config } from './config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -13,7 +14,7 @@ async function bootstrap() {
     prefix: 'api/v',
   });
 
-  await app.listen(5000);
+  await app.listen(config.PORT);
 }
 
 bootstrap();

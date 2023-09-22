@@ -17,17 +17,21 @@ export class CartService extends MongooseGenericRepository<CartDocument> {
   }
 
   async getCartByUserId(id: string): Promise<CartDocument> {
-    const cart = await this.findOne({ user: new Types.ObjectId(id) });
-    const products = await this.productService.find(cart.items);
+    const user = new Types.ObjectId(id);
+    let cart = await this.findOne({ user });
 
-    if (products?.length) Object.assign(cart, { items: products });
+    if (!!cart?.items.length) {
+      const products = await this.productService.find(cart?.items);
+
+      if (products?.length) Object.assign(cart, { items: products });
+    } else return { user, items: [], total: 0 } as CartDocument;
     return cart;
   }
 
   async clearCart(id: string): Promise<CartDocument> {
     return this.updateById(id, { items: { $set: [] } });
   }
-    
+
   async updateCart(id: string, items: string[]): Promise<CartDocument> {
     return this.updateById(id, { items: { $set: [] } });
   }

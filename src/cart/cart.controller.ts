@@ -31,9 +31,11 @@ export class CartController {
   async getCart(@Param('id') id: string): Promise<{ data: CartDocument }> {
     return createDataResponse(this.cartService.findById(id));
   }
-    
+
   @Get('/users/:id')
-  async getCartByUserId(@Param('id') id: string): Promise<{ data: CartDocument }> {
+  async getCartByUserId(
+    @Param('id') id: string,
+  ): Promise<{ data: CartDocument }> {
     return createDataResponse(this.cartService.getCartByUserId(id));
   }
 

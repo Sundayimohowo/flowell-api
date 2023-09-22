@@ -16,6 +16,8 @@ import {
 } from 'src/validators/users';
 import { PasswordService } from './password/password.service';
 import { PasswordDocument } from 'src/entity/password';
+import { CartService } from 'src/cart/cart.service';
+import { CartDocument } from 'src/entity/carts';
 
 @Injectable()
 export class AuthService {
@@ -24,6 +26,7 @@ export class AuthService {
     private readonly passwordService: PasswordService,
     private jwtService: JwtService,
     private readonly mailService: MailService,
+    private readonly cartService: CartService,
   ) {}
 
   public async signUp(
@@ -41,6 +44,9 @@ export class AuthService {
       user: user._id,
       password: hashedPassword,
     } as PasswordDocument);
+    //
+    await this.cartService.create({ user: user?.id } as CartDocument);
+
     return this.userService.findById(user?.id);
   }
 

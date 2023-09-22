@@ -6,6 +6,13 @@ import { UsersModule } from 'src/users/users.module';
 import { JwtModule } from '@nestjs/jwt';
 import { config } from 'src/config';
 import { MailModule } from 'src/mail/mail.module';
+import { CartService } from 'src/cart/cart.service';
+import { MongooseModule } from '@nestjs/mongoose';
+import { Collections } from 'src/utils/enums/collections.enum';
+import { CartSchema } from 'src/entity/carts';
+import { ProductSchema } from 'src/entity/products';
+import { ProductService } from 'src/products/products.service';
+import { UploadService } from 'src/services/upload/upload.service';
 
 @Module({
   imports: [
@@ -16,9 +23,14 @@ import { MailModule } from 'src/mail/mail.module';
       signOptions: { expiresIn: '60s' },
     }),
     MailModule,
+    MongooseModule.forFeature([
+      { name: Collections.carts, schema: CartSchema },
+    ]),
+    MongooseModule.forFeature([
+      { name: Collections.products, schema: ProductSchema },
+    ]),
   ],
   controllers: [AuthController],
-  providers: [AuthService],
-  exports: [],
+  providers: [AuthService, CartService, ProductService, UploadService],
 })
 export class AuthModule {}

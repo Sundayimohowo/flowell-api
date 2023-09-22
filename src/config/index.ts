@@ -1,4 +1,7 @@
 export const config = {
-  PORT: process.env.PORT || 5000,
-  mongodbUrl: process.env.MONGODB_URI || 'mongo://localhost:27017/flowell',
+  port: process.env.PORT || 5000,
+  domain: '',
+  mailgunApiKey: '',
+  jwtSecret: process.env.JWT_SECRET,
+  mongodbUrl: process.env.MONGO_URI || 'mongodb://localhost:27017/flowell',
 };

@@ -6,17 +6,15 @@ import { generate as voucherCodeGenerator } from 'voucher-code-generator';
 //
 import { MailgunMessageData } from 'mailgun.js';
 import { MongooseGenericRepository } from 'src/utils/repository/generic.repository';
-import {
-  EmailVerificationDocument,
-  EmailVerificationModel,
-} from 'src/entity/mail';
+import { EmailVerificationDocument } from 'src/entity/mail';
 // import { config } from 'src/config';
 import { throwError } from 'src/utils/response.util';
+import { Collections } from 'src/utils/enums/collections.enum';
 
 @Injectable()
 export class MailService extends MongooseGenericRepository<EmailVerificationDocument> {
   constructor(
-    @InjectModel(EmailVerificationModel.name)
+    @InjectModel(Collections.emailVerification)
     private readonly mailModel: Model<EmailVerificationDocument>, // private readonly mailgunService: MailgunService,
   ) {
     super(mailModel);

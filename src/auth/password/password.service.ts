@@ -1,15 +1,16 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import * as bcrypt from 'bcrypt';
 import { MongooseGenericRepository } from 'src/utils/repository/generic.repository';
-import { PasswordDocument, PasswordModel } from 'src/entity/password';
+import { PasswordDocument } from 'src/entity/password';
+import { Collections } from 'src/utils/enums/collections.enum';
 
 @Injectable()
 export class PasswordService extends MongooseGenericRepository<PasswordDocument> {
   private SALT = 10;
   constructor(
-    @InjectModel(PasswordModel.name)
+    @InjectModel(Collections.passwords)
     private passwordModel: Model<PasswordDocument>,
   ) {
     super(passwordModel);
